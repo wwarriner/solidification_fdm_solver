@@ -196,7 +196,7 @@ classdef LinearSystemSolver < handle
             u = inf( size( u_curr ) );
             while solver_it <= MAX_IT && ...
                     TIME_STEP_CHANGE_TOL < time_step_change_ratio && ...
-                    obj.pp.get_solidus_temperature( 2 ) < max( u( obj.fdm_mesh == 2 ), [], 'all' )
+                    obj.pp.get_solidus_temperature( 2 ) < max( u( obj.fdm_mesh( : ) == 2 ) )
                 
                 % set up linear system
                 tic;
