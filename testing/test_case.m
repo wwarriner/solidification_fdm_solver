@@ -6,7 +6,7 @@ element_size_in_mm = 0.4*40; % mm
 space_step_in_m = element_size_in_mm / 1000; % m
 
 %% TEST MESH GENERATION
-side_length = 50;
+side_length = 7;
 shape = [ ...
     side_length ...
     side_length ...
@@ -38,18 +38,18 @@ pp.prepare_for_solver();
 
 %% LINEAR SYSTEM SOLVER
 solver = modeler.LinearSystemSolver();
-solver.set_tolerance( 1e-4 );
+solver.set_tolerance( 1e-8 );
 solver.set_maximum_iterations( 100 );
 
 %% SOLIDIFICATION PROBLEM
 problem = SolidificationProblem( fdm_mesh, pp, solver );
 problem.set_implicitness( 1 );
-problem.set_latent_heat_target_ratio( 0.05 );
+problem.set_latent_heat_target_ratio( 0.0001 );
 
 %% ITERATOR
 iterator = modeler.QualityBisectionIterator( problem );
 iterator.set_maximum_iteration_count( 20 );
-iterator.set_quality_ratio_tolerance( 0.2 );
+iterator.set_quality_ratio_tolerance( 0.1 );
 iterator.set_time_step_stagnation_tolerance( 1e-2 );
 iterator.set_initial_time_step( pp.compute_initial_time_step() );
 iterator.set_printer( @fprintf );
@@ -57,9 +57,10 @@ iterator.set_printer( @fprintf );
 %% RESULTS
 sol_temp = pp.get_fraction_solid_temperature( 1.0 );
 sol_time = SolidificationTimeResult( shape, sol_temp );
+spline = SplineResult( center );
 results = containers.Map( ...
-    { 'solidification_times' }, ...
-    { sol_time } ...
+    { 'solidification_times', 'spline' }, ...
+    { sol_time, spline } ...
     );
 
 %% DASHBOARD
@@ -67,5 +68,5 @@ dashboard = SolidificationDashboard( fdm_mesh, pp, solver, problem, iterator, re
 
 %% WRAPPER
 manager = modeler.Manager( fdm_mesh, pp, solver, problem, iterator, results );
-manager.set_dashboard( dashboard );
+%manager.set_dashboard( dashboard );
 manager.solve();
