@@ -213,7 +213,7 @@ classdef SolidificationDashboard < modeler.Dashboard
                 obj.histogram_extremes( histogram_id ) ...
                 );
             new_extreme = obj.histogram_extremes( histogram_id );
-            if new_extreme > 0 && all( values >= 0, 'all' )
+            if new_extreme > 0 && all( values( : ) >= 0 )
                 h.XLim = [ 0 new_extreme ];
             elseif new_extreme > 0
                 h.XLim = [ -new_extreme new_extreme ];

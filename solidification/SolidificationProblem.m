@@ -151,7 +151,7 @@ classdef SolidificationProblem < modeler.super.Problem
         
         function finished = is_finished( obj )
             
-            finished = all( obj.u < obj.finish_temperature, 'all' );
+            finished = all( obj.u( : ) < obj.finish_temperature( : ) );
             
         end
         
