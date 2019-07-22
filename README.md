@@ -1,5 +1,8 @@
 # Solidification FDM Solver
 
+THIS REPOSITORY HAS BEEN MERGED INTO https://github.com/wwarriner/casting_geometric_toolsuite.
+ALL FUTURE DEVELOPMENT WORK WILL TAKE PLACE THERE.
+
 A phase-change heat-transfer PDE solver written in MATLAB. The solver uses variable time-stepping based on a target maximum heat release. The target is a fraction of the latent heat of the material. If the material does not have a latent heat, or a sufficiently small latent heat, then the solver uses the sensible heat over the supplied freezing range instead. Time steps are determined using a bisection approach. The overall solver uses a preconditioned conjugate gradient with a modified incomplete Cholesky factorization preconditioner on a fully implicit, first-order stencil.
 
 ### Usage
